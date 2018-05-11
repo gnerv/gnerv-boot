@@ -22,9 +22,11 @@
     </sql>
 
     <insert id="insertUser">
-        INSERT INTO platform_user {
+        INSERT INTO platform_user (
             user_id, account, password, user_name, user_status
-        } values (#{userId}, #{account}, #{password}, #{userName}, #{userStatus})
+        ) values (
+          #{userId}, #{account}, #{password}, #{userName}, #{userStatus}
+        )
     </insert>
 
     <delete id="deleteUserByUserId">
@@ -54,10 +56,10 @@
             <if test="account != null">
                 AND account like concat(concat('%',#{account}),'%')
             </if>
-            <if test="title != null">
+            <if test="userName != null">
                 AND user_name like concat(concat('%',#{userName}),'%')
             </if>
-            <if test="author != null and author.name != null">
+            <if test="userStatus != null">
                 AND user_status = #{userStatus}
             </if>
         </where>
@@ -66,6 +68,10 @@
     <select id="listAllUser" resultMap="base_user">
         SELECT id, user_id, account, user_name, user_status, gmt_create, gmt_modified
         FROM platform_user
+    </select>
+
+    <select id="checkAccount" resultType="int">
+        SELECT COUNT(*) FROM platform_user WHERE account = #{account}
     </select>
 
 </mapper>

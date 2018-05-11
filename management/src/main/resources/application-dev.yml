@@ -2,9 +2,6 @@
 server:
   name: gnerv-boot
   port: 8080
-  contextPath: /  # 项目根路径配置
-  tomcat:
-    uri-encoding: UTF-8
 
 spring:
   datasource:
@@ -31,7 +28,3 @@ mybatis:
   type-aliases-package: com.gnerv.management
   configuration:
     mapUnderscoreToCamelCase: true
-
-swagger:
-    host: localhost:9000
-

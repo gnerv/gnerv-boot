@@ -3,6 +3,8 @@ package com.gnerv.management.platform.mapper;
 
 import com.gnerv.management.platform.model.User;
 
+import java.util.List;
+
 /**
  * <p>
  * 平台用户表 Mapper 接口
@@ -41,5 +43,23 @@ public interface UserMapper {
      */
     User getUserByUserId(String userId);
 
+    /**
+     * 根据用户对象 模糊查询用户列表
+     * @param user
+     * @return
+     */
+    List<User> listUser(User user);
 
+    /**
+     * 查询全部用户
+     * @return
+     */
+    List<User> listAllUser();
+
+    /**
+     * 检查账户是否存在
+     * @param account
+     * @return 非0 存在 0 不存在
+     */
+    int checkAccount(String account);
 }
