@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gnerv.management.platform.mapper.UserMapper">
+
+    <resultMap id="base_user" type="com.gnerv.management.platform.model.User">
+        <id property="id" column="id" />
+        <result column="user_id" property="userId" />
+        <result column="account" property="account" />
+        <result column="password" property="password" />
+        <result column="user_name" property="userName" />
+        <result column="user_status" property="userStatus" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="all_column">
+        id, user_id, account, password, user_name, user_status, gmt_create, gmt_modified
+    </sql>
+
+    <sql id="no_password_column">
+        id, user_id, account, user_name, user_status, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="insertUser">
+        INSERT INTO platform_user {
+            user_id, account, password, user_name, user_status
+        } values (#{userId}, #{account}, #{password}, #{userName}, #{userStatus})
+    </insert>
+
+    <delete id="deleteUserByUserId">
+        DELETE FROM platform_user WHERE user_id = #{userId}
+    </delete>
+
+    <update id="updateUser">
+        UPDATE platform_user
+        <set>
+            <if test="account != null">account = #{account},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="userStatus != null">user_status = #{userStatus}</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="getUserByUserId" resultMap="base_user">
+        SELECT id, user_id, account, user_name, user_status, gmt_create, gmt_modified
+        FROM platform_user WHERE user_id = #{userId}
+    </select>
+
+    <select id="listUser" resultMap="base_user">
+        SELECT id, user_id, account, user_name, user_status, gmt_create, gmt_modified
+        FROM platform_user
+        <where>
+            <if test="account != null">
+                AND account like concat(concat('%',#{account}),'%')
+            </if>
+            <if test="title != null">
+                AND user_name like concat(concat('%',#{userName}),'%')
+            </if>
+            <if test="author != null and author.name != null">
+                AND user_status = #{userStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="listAllUser" resultMap="base_user">
+        SELECT id, user_id, account, user_name, user_status, gmt_create, gmt_modified
+        FROM platform_user
+    </select>
+
+</mapper>
