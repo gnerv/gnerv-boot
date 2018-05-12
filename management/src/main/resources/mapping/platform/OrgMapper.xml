@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gnerv.management.platform.mapper.OrgMapper">
+
+    <resultMap id="base_org" type="com.gnerv.management.platform.model.Org">
+        <id property="id" column="id" />
+        <result column="org_id" property="orgId" />
+        <result column="p_id" property="pId" />
+        <result column="org_code" property="orgCode" />
+        <result column="org_name" property="orgName" />
+        <result column="org_abbreviation" property="orgAbbreviation" />
+        <result column="org_status" property="orgStatus" />
+        <result column="org_sort" property="orgSort" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <sql id="all_column">
+        id, org_id, p_id, org_code, org_name, org_abbreviation, org_status, org_sort, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="insertOrg">
+        INSERT INTO platform_org (
+            org_id, p_id, org_code, org_name, org_abbreviation, org_status, org_sort
+        ) VALUES (
+          #{orgId}, #{pId}, #{orgCode}, #{orgName}, #{orgAbbreviation}, #{orgStatus}, #{orgSort}
+        )
+    </insert>
+
+    <delete id="deleteOrg">
+        DELETE FROM platform_org WHERE org_id = #{orgId}
+    </delete>
+
+    <update id="updateOrg">
+        UPDATE platform_org
+        <set>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="pId != null">p_id = #{pId},</if>
+            <if test="orgCode != null">org_code = #{orgCode},</if>
+            <if test="orgName != null">org_name = #{orgName}</if>
+            <if test="orgAbbreviation != null">org_abbreviation = #{orgAbbreviation}</if>
+            <if test="orgStatus != null">org_status = #{orgStatus}</if>
+            <if test="orgSort != null">org_sort = #{orgSort}</if>
+        </set>
+        WHERE org_id = #{orgId}
+    </update>
+
+    <select id="getOrgByOrgId">
+        SELECT <include refid="all_column" />
+        FROM platform_org WHERE org_id = #{orgId}
+    </select>
+
+    <select id="listOrg">
+        SELECT <include refid="all_column" />
+        FROM platform_org
+        <where>
+            <if test="orgCode != null">
+                AND orgCode like concat(concat('%',#{orgCode}),'%')
+            </if>
+            <if test="orgName
+             != null">
+                AND orgName like concat(concat('%',#{orgName}),'%')
+            </if>
+            <if test="userStatus != null">
+                AND user_status = #{userStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -36,9 +36,13 @@ public class User implements Serializable {
      */
     private String userName;
     /**
-     * 用户状态 : 0启用 1停用 2 锁定 3删除
+     * 用户状态 : 0启用 1停用 2锁定 3删除
      */
     private String userStatus;
+    /**
+     * 用户信息对象
+     */
+    private UserInfo userInfo;
     /**
      * 创建时间
      */
@@ -113,17 +117,26 @@ public class User implements Serializable {
         this.gmtModified = gmtModified;
     }
 
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", account=" + account +
-        ", password=" + password +
-        ", userName=" + userName +
-        ", userStatus=" + userStatus +
-        ", gmtCreate=" + gmtCreate +
-        ", gmtModified=" + gmtModified +
-        "}";
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userStatus='" + userStatus + '\'' +
+                ", userInfo=" + userInfo +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                '}';
     }
 }
